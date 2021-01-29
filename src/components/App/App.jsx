@@ -1,11 +1,12 @@
 import {HashRouter as Router, Route} from 'react-router-dom';
 import './App.css';
 import MovieList from '../MovieList/MovieList'
+import NavBar from '../NavBar/NavBar';
 
 function App() {
   return (
     <div className="App">
-      <h1>The Movies Saga!</h1>
+      <NavBar />
       <Router>        
         <Route path="/" exact>
           <MovieList />
