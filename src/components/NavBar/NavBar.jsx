@@ -1,4 +1,3 @@
-import './NavBar.css'
 import Paper from '@material-ui/core/Paper';
 
 function NavBar() {
