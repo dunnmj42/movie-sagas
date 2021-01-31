@@ -1,16 +1,18 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const pool = require('../modules/pool')
+const pool = require("../modules/pool");
 
-router.get('/', (req, res) => {
+// GET to return all genres and ID's
+router.get("/", (req, res) => {
   const query = `SELECT * FROM "genres" ORDER BY "name"`;
-  pool.query(query)
-    .then(result => {
+  pool
+    .query(query)
+    .then((result) => {
       res.send(result.rows);
     })
-    .catch(error => {
+    .catch((error) => {
       console.error(error);
-      res.sendStatus(500)
+      res.sendStatus(500);
     });
 });
 

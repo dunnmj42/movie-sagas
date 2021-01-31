@@ -2,10 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./components/App/App";
 import { createStore, combineReducers, applyMiddleware } from "redux";
-// Provider allows us to use redux within our react app
 import { Provider } from "react-redux";
 import logger from "redux-logger";
-// Import saga middleware
 import createSagaMiddleware from "redux-saga";
 import { takeEvery, put } from "redux-saga/effects";
 import axios from "axios";
@@ -24,8 +22,8 @@ function* rootSaga() {
   yield takeEvery("FETCH_MOVIES", fetchAllMovies);
   yield takeEvery("GET_DETAILS", getDetails);
   yield takeEvery("GET_GENRES", getGenres);
-  yield takeEvery("NEW_MOVIE", newMovie)
-};
+  yield takeEvery("NEW_MOVIE", newMovie);
+}
 
 function* fetchAllMovies() {
   // get all movies from the DB
@@ -35,18 +33,18 @@ function* fetchAllMovies() {
     yield put({ type: "SET_MOVIES", payload: movies.data });
   } catch (error) {
     console.error(error);
-  };
-};
+  }
+}
 
 // get one movie for detail view
 function* getDetails(action) {
   try {
-      const response = yield axios.get(`/api/movie/${action.payload}`);
-      yield put({type: 'GET_MOVIE_DETAILS', payload: response.data[0]});
+    const response = yield axios.get(`/api/movie/${action.payload}`);
+    yield put({ type: "GET_MOVIE_DETAILS", payload: response.data[0] });
   } catch (error) {
-      console.error(error);
-  };
-};
+    console.error(error);
+  }
+}
 
 function* getGenres() {
   // get all genres from the DB
@@ -56,13 +54,13 @@ function* getGenres() {
     yield put({ type: "SET_GENRES", payload: genres.data });
   } catch (error) {
     console.error(error);
-  };
-};
+  }
+}
 
 function* newMovie(action) {
   try {
-    yield axios.post("/api/movie", action.payload)
-    yield put({type: "FETCH_MOVIES"})
+    yield axios.post("/api/movie", action.payload);
+    yield put({ type: "FETCH_MOVIES" });
   } catch (error) {
     console.error(error);
   }
@@ -72,9 +70,9 @@ function* newMovie(action) {
 const sagaMiddleware = createSagaMiddleware();
 
 // Used to store single movie for detail view
-const movieDetails = (state  = {}, action) => {
-  if(action.type === 'GET_MOVIE_DETAILS') {
-      return action.payload;
+const movieDetails = (state = {}, action) => {
+  if (action.type === "GET_MOVIE_DETAILS") {
+    return action.payload;
   }
   return state;
 };
@@ -86,7 +84,7 @@ const movies = (state = [], action) => {
       return action.payload;
     default:
       return state;
-  };
+  }
 };
 
 // Used to store the movie genres
@@ -96,7 +94,7 @@ const genres = (state = [], action) => {
       return action.payload;
     default:
       return state;
-  };
+  }
 };
 
 // Create one store that all components can use
@@ -113,6 +111,7 @@ const storeInstance = createStore(
 // Pass rootSaga into our sagaMiddleware
 sagaMiddleware.run(rootSaga);
 
+// Wrap theme provider and insert cssbaseline for MUI styling
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>

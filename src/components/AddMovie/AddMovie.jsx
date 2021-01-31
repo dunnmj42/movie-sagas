@@ -7,6 +7,7 @@ import ButtonGroup from "@material-ui/core/ButtonGroup";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
+// Hook API for theme/style
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -17,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function AddMovie() {
+  // Local state for new movie to add
   const [newMovie, setNewMovie] = useState({
     title: "",
     poster: "",
@@ -24,24 +26,28 @@ function AddMovie() {
     genre_id: "",
   });
 
+  // Redux selector for genres, populates form select
   const genres = useSelector((store) => store.genres);
 
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
 
+  // useEffect for GET genres on page load
   useEffect(() => {
     dispatch({ type: "GET_GENRES" });
   }, []);
 
+  // new movie dispatch, alert, form clear, and nav to list
   const dispatchMovie = (event) => {
     event.preventDefault();
-    dispatch({type: "NEW_MOVIE", payload: newMovie});
+    dispatch({ type: "NEW_MOVIE", payload: newMovie });
     alert("Movie added successfully, returning to list view!");
     clearForm();
-    history.push("/")
+    history.push("/");
   };
 
+  // clear form function
   const clearForm = () => {
     setNewMovie({
       title: "",
@@ -55,7 +61,11 @@ function AddMovie() {
     <div>
       <h2>Add a New Movie</h2>
       <br />
-      <form className={classes.root} autoComplete="off" onSubmit={dispatchMovie}>
+      <form
+        className={classes.root}
+        autoComplete="off"
+        onSubmit={dispatchMovie}
+      >
         <TextField
           id="movieTitle"
           label="Movie Title"
@@ -87,9 +97,16 @@ function AddMovie() {
           }
         />
         <br />
-        <TextField id="movieGenre" select label="Genre" value={newMovie.genre_id} variant="outlined" onChange={(event) =>
+        <TextField
+          id="movieGenre"
+          select
+          label="Genre"
+          value={newMovie.genre_id}
+          variant="outlined"
+          onChange={(event) =>
             setNewMovie({ ...newMovie, genre_id: event.target.value })
-          }>
+          }
+        >
           {genres.map((genre) => (
             <MenuItem key={genre.id} value={genre.id}>
               {genre.name}
@@ -105,6 +122,6 @@ function AddMovie() {
       </form>
     </div>
   );
-};
+}
 
 export default AddMovie;
