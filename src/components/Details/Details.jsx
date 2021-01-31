@@ -16,9 +16,6 @@ function Details() {
 
   const history = useHistory();
 
-  const handleClick = () => {
-    history.push('/');
-  };
 
   return (
     <Card>
@@ -34,7 +31,7 @@ function Details() {
                 }))}
         </CardContent>
         <CardActions>
-        <Button size="small" onClick={handleClick}>
+        <Button size="small" onClick={() => history.push('/')}>
           back to list
         </Button>
         </CardActions>
