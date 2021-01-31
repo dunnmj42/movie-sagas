@@ -4,8 +4,6 @@ import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
-import Link from "@material-ui/core/Link";
-import Typography from "@material-ui/core/Typography";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -98,18 +96,13 @@ function AddMovie() {
         </TextField>
         <br />
         <ButtonGroup>
-          <Button type="submit">Send</Button>
-          <Button onClick={clearForm}>Cancel</Button>
+          <Button type="submit">Save</Button>
+          <Button onClick={clearForm}>Clear</Button>
+          <Button onClick={() => history.push("/")}>Cancel</Button>
         </ButtonGroup>
-        <br />
-        <Button onClick={() => history.push("/")}>
-          <Typography className={classes.root}>
-            <Link>back to list</Link>
-          </Typography>
-        </Button>
       </form>
     </div>
   );
-}
+};
 
 export default AddMovie;
