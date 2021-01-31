@@ -22,7 +22,7 @@ function MovieList() {
 
     return (
         <main>
-            <h1>MovieList</h1>
+            <h2>Movie List</h2>
             <div className={classes.root}>
             <Grid container spacing={3} justify="center" alignItems="center">
                 {movies.map(movie => {

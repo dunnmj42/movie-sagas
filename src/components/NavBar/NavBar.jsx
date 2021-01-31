@@ -14,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
 function NavBar() {
 
   const classes = useStyles();
-  const preventDefault = (event) => event.preventDefault();
 
   return (
     <div>
@@ -23,7 +22,7 @@ function NavBar() {
         <h1>The Movies Saga!</h1>
         <br/>
         <Typography className={classes.root}>
-          <Link href="/#/addmovie" onClick={preventDefault}>
+          <Link href="/#/addmovie">
             Add Movie  
           </Link>
         </Typography>

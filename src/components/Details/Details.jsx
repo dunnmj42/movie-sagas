@@ -8,9 +8,9 @@ import Button from '@material-ui/core/Button';
 
 function Details() {
 
-  const detailMovie = useSelector(store => store.movieDetails);
+  const detailMovie = useSelector(store => store?.movieDetails);
 
-  const genres = detailMovie.array_agg
+  const genres = detailMovie?.array_agg
 
   console.log(detailMovie);
 
@@ -27,9 +27,9 @@ function Details() {
           <img src={detailMovie.poster} alt={detailMovie.title} />
           <h4>{detailMovie.description}</h4>
           <h3>Genres:</h3>
-          {genres.map((genre => {
+          {genres?.map((genre => {
                     return (
-                        <h4>{genre}</h4>
+                        <h4 key={genre}>{genre}</h4>
                     );
                 }))}
         </CardContent>
