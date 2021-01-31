@@ -37,7 +37,9 @@ function AddMovie() {
   const dispatchMovie = (event) => {
     event.preventDefault();
     dispatch({type: "NEW_MOVIE", payload: newMovie});
+    alert("Movie added successfully, returning to list view!");
     clearForm();
+    history.push("/")
   };
 
   const clearForm = () => {
