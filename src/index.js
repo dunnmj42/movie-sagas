@@ -24,7 +24,8 @@ const theme = createMuiTheme({
 function* rootSaga() {
   yield takeEvery("FETCH_MOVIES", fetchAllMovies);
   yield takeEvery("GET_DETAILS", getDetails);
-  yield takeEvery("GET_GENRES", getGenres)
+  yield takeEvery("GET_GENRES", getGenres);
+  yield takeEvery("NEW_MOVIE", newMovie)
 };
 
 function* fetchAllMovies() {
@@ -58,6 +59,15 @@ function* getGenres() {
     console.error(error);
   };
 };
+
+function* newMovie(action) {
+  try {
+    yield axios.post("/api/movie", action.payload)
+    yield put({type: "FETCH_MOVIES"})
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 // Create sagaMiddleware
 const sagaMiddleware = createSagaMiddleware();
