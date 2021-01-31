@@ -18,7 +18,9 @@ function Details() {
 
 
   return (
-    <Card>
+    <div>
+      <br/>
+      <Card>
         <CardHeader title={detailMovie.title} />
         <CardContent>
           <img src={detailMovie.poster} alt={detailMovie.title} />
@@ -36,6 +38,7 @@ function Details() {
         </Button>
         </CardActions>
       </Card>
+    </div>
   );
 };
 

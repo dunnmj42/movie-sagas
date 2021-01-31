@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -6,19 +7,28 @@ import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
-      margin: theme.spacing(1),
-      width: "25ch",
+      margin: theme.spacing(2),
+      width: "50vw",
     },
   },
 }));
 
 function AddMovie() {
+
+  const genres = useSelector(store => store.genres);
+
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({ type: 'GET_GENRES' });
+  }, []);
 
   return (
     <div>
@@ -37,28 +47,19 @@ function AddMovie() {
           id="movieDescription"
           label="Movie Description"
           multiline
-          rows={5}
           variant="outlined"
         />
         <br/>
         <TextField id="movieGenre" select label="Genre" variant="outlined">
-          <MenuItem>Adventure</MenuItem>
-          <MenuItem>Animated</MenuItem>
-          <MenuItem>Biographical</MenuItem>
-          <MenuItem>Comedy</MenuItem>
-          <MenuItem>Disaster</MenuItem>
-          <MenuItem>Drama</MenuItem>
-          <MenuItem>Epic</MenuItem>
-          <MenuItem>Fantasy</MenuItem>
-          <MenuItem>Musical</MenuItem>
-          <MenuItem>Romantic</MenuItem>
-          <MenuItem>Science Fiction</MenuItem>
-          <MenuItem>Space-Opera</MenuItem>
-          <MenuItem>Superhero</MenuItem>
+        {genres.map((genre) => (
+            <MenuItem key={genre.id} value={genre.name}>
+              {genre.name}
+            </MenuItem>
+          ))}
         </TextField>
         <br/>
         <ButtonGroup>
-          <Button>Add Movie</Button>
+          <Button>Send</Button>
           <Button>Cancel</Button>
         </ButtonGroup>
         <br/>

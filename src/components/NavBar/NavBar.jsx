@@ -1,4 +1,4 @@
-import Paper from '@material-ui/core/Paper';
+import Card from '@material-ui/core/Card';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,17 +17,17 @@ function NavBar() {
 
   return (
     <div>
-      <Paper>
+      <Card>
         <br/>
         <h1>The Movies Saga!</h1>
         <br/>
         <Typography className={classes.root}>
-          <Link href="/#/addmovie">
+          <Link href="/#/addmovie" color="inherit">
             Add Movie  
           </Link>
         </Typography>
         <br/>
-      </Paper>
+      </Card>
     </div>
   );
 };
