@@ -12,8 +12,22 @@ router.get('/', (req, res) => {
     .catch(err => {
       console.log('ERROR: Get all movies', err);
       res.sendStatus(500)
-    })
+    });
 
+});
+
+router.get('/:id', (req, res) => {
+  
+  const idToGET = req.params.id;
+  const sqlText = `SELECT * FROM movies WHERE id = $1`;
+  pool.query(sqlText, [idToGET])
+      .then((result) => {
+          res.send(result.rows);
+      })
+      .catch((error) => {
+          console.log(`Error making database query ${sqlText}`, error);
+          res.sendStatus(500);
+      });
 });
 
 router.post('/', (req, res) => {
@@ -44,13 +58,13 @@ router.post('/', (req, res) => {
         // catch for second query
         console.log(err);
         res.sendStatus(500)
-      })
+      });
 
 // Catch for first query
   }).catch(err => {
     console.log(err);
     res.sendStatus(500)
-  })
-})
+  });
+});
 
 module.exports = router;

@@ -23,7 +23,8 @@ const theme = createMuiTheme({
 // Create the rootSaga generator function
 function* rootSaga() {
   yield takeEvery("FETCH_MOVIES", fetchAllMovies);
-}
+  yield takeEvery("GET_DETAILS", getDetails);
+};
 
 function* fetchAllMovies() {
   // get all movies from the DB
@@ -31,13 +32,31 @@ function* fetchAllMovies() {
     const movies = yield axios.get("/api/movie");
     console.log("get all:", movies.data);
     yield put({ type: "SET_MOVIES", payload: movies.data });
-  } catch {
-    console.log("get all error");
-  }
-}
+  } catch (error) {
+    console.error(error);
+  };
+};
+
+// get one movie for detail view
+function* getDetails(action) {
+  try {
+      const response = yield axios.get(`/api/movie/${action.payload}`);
+      yield put({type: 'GET_MOVIE_DETAILS', payload: response.data[0]});
+  } catch (error) {
+      console.error(error);
+  };
+};
 
 // Create sagaMiddleware
 const sagaMiddleware = createSagaMiddleware();
+
+// Used to store single movie for detail view
+const movieDetails = (state  = {}, action) => {
+  if(action.type === 'GET_MOVIE_DETAILS') {
+      return action.payload;
+  }
+  return state;
+};
 
 // Used to store movies returned from the server
 const movies = (state = [], action) => {
@@ -46,7 +65,7 @@ const movies = (state = [], action) => {
       return action.payload;
     default:
       return state;
-  }
+  };
 };
 
 // Used to store the movie genres
@@ -56,13 +75,14 @@ const genres = (state = [], action) => {
       return action.payload;
     default:
       return state;
-  }
+  };
 };
 
 // Create one store that all components can use
 const storeInstance = createStore(
   combineReducers({
     movies,
+    movieDetails,
     genres,
   }),
   // Add sagaMiddleware to our store
