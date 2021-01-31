@@ -19,7 +19,13 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
   
   const idToGET = req.params.id;
-  const sqlText = `SELECT * FROM movies WHERE id = $1`;
+  const sqlText = `
+    SELECT "movies".title, "movies".description, "movies".poster, ARRAY_AGG("genres".name) FROM "movies"
+    JOIN "movies_genres" ON "movies".id = "movies_genres".movie_id
+    JOIN "genres" ON "movies_genres".genre_id = "genres".id
+    WHERE "movies".id = $1
+    GROUP BY "movies".title, "movies".description, "movies".poster;
+    `;
   pool.query(sqlText, [idToGET])
       .then((result) => {
           res.send(result.rows);
@@ -34,9 +40,9 @@ router.post('/', (req, res) => {
   console.log(req.body);
   // RETURNING "id" will give us back the id of the created movie
   const insertMovieQuery = `
-  INSERT INTO "movies" ("title", "poster", "description")
-  VALUES ($1, $2, $3)
-  RETURNING "id";`
+    INSERT INTO "movies" ("title", "poster", "description")
+    VALUES ($1, $2, $3)
+    RETURNING "id";`;
 
   // FIRST QUERY MAKES MOVIE
   pool.query(insertMovieQuery, [req.body.title, req.body.poster, req.body.description])
